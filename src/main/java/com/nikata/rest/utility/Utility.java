@@ -52,10 +52,6 @@ public final class Utility {
 			result = Boolean.TRUE;
 		} else if (null != user.getName() && !user.getName().equals(cache.getName())) {
 			result = Boolean.TRUE;
-		} else if (null != user.getType() && !user.getType().equals(cache.getType())) {
-			result = Boolean.TRUE;
-		} else if (null != user.getRoles() && !user.getRoles().equals(cache.getRoles())) {
-			result = Boolean.TRUE;
 		} else if (cache.getIsVerified() == 'Y') {
 			user.setIsVerified('Y');
 		}
