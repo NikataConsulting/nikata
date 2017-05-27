@@ -23,20 +23,16 @@ public class RoleService {
 	public long create(RoleDTO r, String action) throws QueryException, Exception {
 		long result = 0;
 		if (action.equals("add")) {
-			roleDao.create("INSERT INTO role(id, name, description, permission_id, updated_on) VALUES(?, ?,?,?,?)", r);
+			roleDao.create(r);
 			cache.cacheRole(r);
 		} else if (action.equals("update")) {
-			result = roleDao.update("UPDATE role SET name='" + r.getName() + "', description='" + r.getDescription()
-					+ "', permission_id = " + r.getPermissions().get(0).getId() + ",updated_on = CURRENT_TIMESTAMP WHERE id = "
-					+ r.getId());
-			if (result > 0) {
-				cache.loadRole();
-			}
+			roleDao.update(r);
+			cache.loadRole();
+			result = 1;
 		} else if (action.equals("delete")) {
-			result = roleDao.update("DELETE FROM role WHERE id =" + r.getId());
-			if (result > 0) {
-				cache.getRoleMap().remove(r.getName());
-			}
+			roleDao.delete(r);
+			cache.getRoleMap().remove(r.getName());
+			result = 1;
 		} else {
 			throw new Exception("Wrong operation");
 		}

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.nikata.rest.constant.UserQuery;
 import com.nikata.rest.dao.UserDao;
-import com.nikata.rest.exception.QueryException;
 import com.nikata.rest.model.User;
 
 /**
@@ -28,10 +27,9 @@ public class UserService {
 	 * @date Mar 8, 2017 3:23:13 PM
 	 * @param user
 	 * @return
-	 * @throws DataAccessException
-	 * @throws QueryException
+	 * @throws Exception 
 	 */
-	public int create(User user) throws DataAccessException, QueryException {
+	public long create(User user) throws Exception {
 		return userDao.create(UserQuery.add(user));
 	}
 
@@ -41,10 +39,9 @@ public class UserService {
 	 * @date Mar 8, 2017 3:23:17 PM
 	 * @param user
 	 * @return
-	 * @throws DataAccessException
-	 * @throws QueryException
+	 * @throws Exception 
 	 */
-	public int update(User user) throws DataAccessException, QueryException {
+	public long update(User user) throws Exception {
 		return userDao.create(UserQuery.update(user));
 	}
 

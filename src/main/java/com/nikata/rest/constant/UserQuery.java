@@ -18,9 +18,10 @@ public final class UserQuery {
 		if (user.getUser_id() > 0) {
 			insert.append("user_id");
 			value.append(user.getUser_id() + ",");
-		} else {
-			throw new QueryException("facebook user_id not found in request");
-		}
+		} /*
+			 * else { throw new
+			 * QueryException("facebook user_id not found in request"); }
+			 */
 
 		if (null != user.getName() || !user.getName().isEmpty()) {
 			insert.append(",name");
@@ -31,22 +32,22 @@ public final class UserQuery {
 
 		if (null != user.getGender() && !user.getGender().isEmpty()) {
 			insert.append(",gender");
-			value.append("'"+user.getGender() + "',");
+			value.append("'" + user.getGender() + "',");
 		}
 
 		if (null != user.getEmail() && !user.getEmail().isEmpty()) {
 			insert.append(",email");
-			value.append("'"+user.getEmail() + "',");
+			value.append("'" + user.getEmail() + "',");
 		}
 
 		if (null != user.getMobile() && !user.getMobile().isEmpty()) {
 			insert.append(",mobile");
-			value.append("'"+user.getMobile() + "',");
+			value.append("'" + user.getMobile() + "',");
 		}
 
 		if (null != user.getDob() && !user.getDob().isEmpty()) {
 			insert.append(",dob");
-			value.append("'"+user.getDob() + "',");
+			value.append("'" + user.getDob() + "',");
 		}
 
 		insert.append(",country_id)");
@@ -57,23 +58,23 @@ public final class UserQuery {
 	public static String update(User user) throws QueryException {
 		StringBuilder update = new StringBuilder("UPDATE users SET ");
 		if (null != user.getName() || user.getName().isEmpty()) {
-			update.append("name = '" + user.getName()+"'");
+			update.append("name = '" + user.getName() + "'");
 		}
 
 		if (null != user.getGender() && !user.getGender().isEmpty()) {
-			update.append(",gender = '" + user.getGender()+"'");
+			update.append(",gender = '" + user.getGender() + "'");
 		}
 
 		if (null != user.getEmail() && !user.getEmail().isEmpty()) {
-			update.append(",email = '" + user.getEmail()+"'");
+			update.append(",email = '" + user.getEmail() + "'");
 		}
 
 		if (null != user.getMobile() && !user.getMobile().isEmpty()) {
-			update.append(",mobile = '" + user.getMobile()+"'");
+			update.append(",mobile = '" + user.getMobile() + "'");
 		}
 
 		if (null != user.getDob() && !user.getDob().isEmpty()) {
-			update.append(",dob = '" + user.getDob()+"'");
+			update.append(",dob = '" + user.getDob() + "'");
 		}
 
 		if (user.getUser_id() > 0) {
@@ -83,9 +84,9 @@ public final class UserQuery {
 		}
 		return update.toString();
 	}
-	
+
 	public static String readByUserId(int userId) {
-		return "SELECT * FROM users WHERE user_id = "+userId;
+		return "SELECT * FROM users WHERE user_id = " + userId;
 	}
 
 	public static final String GET_ALL_USER = "SELECT * FROM users";
