@@ -73,7 +73,7 @@ public class MerchantDao {
 	 * @return
 	 * @throws Exception
 	 */
-	public void create(final Client c) throws Exception {
+	public Client create(final Client c) throws Exception {
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
@@ -128,6 +128,7 @@ public class MerchantDao {
 			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
+		return c;
 	}
 
 	public long update(String SQL) throws Exception {

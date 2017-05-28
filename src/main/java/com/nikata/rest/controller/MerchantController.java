@@ -41,9 +41,10 @@ public class MerchantController {
 	@RequestMapping(method = RequestMethod.POST)
 	public Response create(@RequestBody Client client, Response response) {
 		try {
-			merchantDao.create(client);
+			response.setPayload(merchantDao.create(client));
 			response.setHttpCode(200);
 			response.setMessage("success");
+			cache.getMerchantMap().put(client.getClient_id(), client.getName());
 		} catch (Exception e) {
 			response.setHttpCode(400);
 			response.setMessage("failure");
