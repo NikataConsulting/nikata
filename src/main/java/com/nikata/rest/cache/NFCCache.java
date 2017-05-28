@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.nikata.rest.constant.UserQuery;
+import com.nikata.rest.dao.MerchantDao;
 import com.nikata.rest.dao.PermissionDao;
 import com.nikata.rest.dao.RoleDao;
 import com.nikata.rest.dao.UserDao;
 import com.nikata.rest.dto.RoleDTO;
 import com.nikata.rest.model.Branches;
+import com.nikata.rest.model.Client;
 import com.nikata.rest.model.Permission;
 import com.nikata.rest.model.Role;
 import com.nikata.rest.model.User;
@@ -42,10 +44,14 @@ public class NFCCache {
 	@Autowired
 	private RoleDao roleDao;
 
-	private Map<Long, User> userMap = new HashMap<Long, User>();
-	private Map<String, String> paramMap = new HashMap<String, String>();
-	private Map<Long, Permission> permissionMap = new HashMap<Long, Permission>();
-	private Map<String, List<Permission>> roleMap = new HashMap<String, List<Permission>>();
+	@Autowired
+	private MerchantDao merchantDao;
+
+	private Map<Long, User> userMap = new HashMap<>();
+	private Map<String, String> paramMap = new HashMap<>();
+	private Map<Long, Permission> permissionMap = new HashMap<>();
+	private Map<String, List<Permission>> roleMap = new HashMap<>();
+	private Map<Long, String> merchantMap = new HashMap<>();
 
 	/**
 	 * 
@@ -60,7 +66,9 @@ public class NFCCache {
 	public void load() {
 		try {
 			loadUser();
-
+			
+			loadMerchant();
+			
 			loadBranch();
 
 			loadPermission();
@@ -75,7 +83,7 @@ public class NFCCache {
 	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 7:27:03 AM
 	 */
-	private void loadBranch() {
+	private synchronized void loadBranch() {
 		paramMap.clear();
 		List<Branches> branchList = branchService.getAllBranches();
 		if (null != branchList && !branchList.isEmpty()) {
@@ -90,7 +98,7 @@ public class NFCCache {
 	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 7:26:44 AM
 	 */
-	private void loadUser() {
+	private synchronized void loadUser() {
 		userMap.clear();
 		List<User> userList = userDao.readAll(UserQuery.GET_ALL_USER);
 		if (null != userList && !userList.isEmpty()) {
@@ -99,7 +107,21 @@ public class NFCCache {
 			}
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @author Gaurav Oli
+	 * @date May 28, 2017 12:06:50 AM
+	 */
+	public synchronized void loadMerchant() {
+		List<Client> clients = merchantDao.readAll();
+		if (null != clients && !clients.isEmpty()) {
+			clients.forEach(client -> {
+				merchantMap.put(client.getClient_id(), client.getName());
+			});
+		}
+	}
+
 	/**
 	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 7:27:54 AM
@@ -114,7 +136,7 @@ public class NFCCache {
 			}
 		}
 	}
-	
+
 	/**
 	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 7:28:33 AM
@@ -128,13 +150,13 @@ public class NFCCache {
 			}
 		}
 	}
-	
+
 	/**
 	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 7:23:18 AM
 	 * @param r
 	 */
-	public void cacheRole(Role r) {
+	private void cacheRole(Role r) {
 		if (null != roleMap.get(r.getName())) {
 			roleMap.get(r.getName()).add(permissionMap.get(r.getPermission_id()));
 		} else {
@@ -143,7 +165,7 @@ public class NFCCache {
 			roleMap.put(r.getName(), permissions);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
@@ -172,5 +194,9 @@ public class NFCCache {
 
 	public Map<String, List<Permission>> getRoleMap() {
 		return roleMap;
+	}
+
+	public Map<Long, String> getMerchantMap() {
+		return merchantMap;
 	}
 }

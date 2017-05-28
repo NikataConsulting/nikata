@@ -34,11 +34,21 @@ public class MerchantDao {
 	/**
 	 * 
 	 * @author Gaurav Oli
+	 * @date May 28, 2017 12:06:04 AM
+	 * @return
+	 */
+	public List<Client> readAll() {
+		return jdbcTemplate.query("SELECT * FROM clients", new BeanPropertyRowMapper<Client>(Client.class));
+	}
+
+	/**
+	 * 
+	 * @author Gaurav Oli
 	 * @date Apr 22, 2017 6:55:43 AM
 	 * @return
 	 * @throws Exception
 	 */
-	public Client read(int clientId) throws Exception {
+	public Client read(long clientId) throws Exception {
 		try {
 			Client client = jdbcTemplate.queryForObject("SELECT * FROM clients WHERE client_id=" + clientId,
 					new BeanPropertyRowMapper<Client>(Client.class));
@@ -92,7 +102,7 @@ public class MerchantDao {
 						PreparedStatement ps = connection.prepareStatement(
 								"INSERT INTO BRANCHES(client_id, name, 'unique', address, primary_contact, secondary_contact, email, country_id, fb_url, fb_page_id, updated_on) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
 								Statement.RETURN_GENERATED_KEYS);
-						ps.setInt(1, c.getClient_id());
+						ps.setLong(1, c.getClient_id());
 						ps.setString(2, b.getName());
 						ps.setString(3, b.getUnique());
 						ps.setString(4, b.getAddress());

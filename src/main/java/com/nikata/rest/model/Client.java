@@ -12,18 +12,18 @@ import javax.validation.constraints.NotNull;
  * @date Mar 5, 2017 1:38:50 PM
  */
 public class Client {
-	private int client_id;
+	private long client_id;
 	@NotNull
 	private String name;
 	private List<Branches> branches;
 	private String created_on;
 	private String updated_on;
 
-	public int getClient_id() {
+	public long getClient_id() {
 		return client_id;
 	}
 
-	public void setClient_id(int client_id) {
+	public void setClient_id(long client_id) {
 		this.client_id = client_id;
 	}
 
