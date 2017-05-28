@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nikata.rest.cache.NFCCache;
 import com.nikata.rest.constant.Constants;
 import com.nikata.rest.dto.Response;
 import com.nikata.rest.model.Permission;
@@ -27,6 +28,9 @@ public class PermissionController {
 	@Autowired
 	private PermissionService permissionService;
 
+	@Autowired
+	private NFCCache cache;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public Response get(Response response) {
 		try {
@@ -43,7 +47,8 @@ public class PermissionController {
 	@RequestMapping(method = RequestMethod.POST)
 	public Response post(@RequestBody Permission permission, Response response) {
 		try {
-			response.setPayload(permissionService.create(permission, "add"));
+			permissionService.create(permission, "add");
+			response.setPayload(permission);
 			response.setHttpCode(200);
 			response.setMessage(Constants.SUCCESS);
 		} catch (Exception e) {
@@ -55,26 +60,47 @@ public class PermissionController {
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public Response put(@RequestBody Permission permission, Response response) {
-		try {
-			response.setPayload(permissionService.create(permission, "update"));
-			response.setHttpCode(200);
-			response.setMessage(Constants.SUCCESS);
-		} catch (Exception e) {
+		if (permission.getId() > 0) {
+			if (null != cache.getPermissionMap().get(permission.getId())) {
+				try {
+					permissionService.create(permission, "update");
+					response.setPayload(permission);
+					response.setHttpCode(200);
+					response.setMessage(Constants.SUCCESS);
+				} catch (Exception e) {
+					response.setHttpCode(404);
+					response.setMessage(e.getMessage());
+				}
+			} else {
+				response.setHttpCode(404);
+				response.setMessage("Bad update request, Permission ID is not available in DB");
+			}
+		} else {
 			response.setHttpCode(404);
-			response.setMessage(e.getMessage());
+			response.setMessage("Permission ID is a mandatory field.");
 		}
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public Response delete(@RequestBody Permission permission, Response response) {
-		try {
-			response.setPayload(permissionService.create(permission, "delete"));
-			response.setHttpCode(200);
-			response.setMessage(Constants.SUCCESS);
-		} catch (Exception e) {
+		if (permission.getId() > 0) {
+			if (null != cache.getPermissionMap().get(permission.getId())) {
+				try {
+					permissionService.create(permission, "delete");
+					response.setHttpCode(200);
+					response.setMessage(Constants.SUCCESS);
+				} catch (Exception e) {
+					response.setHttpCode(404);
+					response.setMessage(e.getMessage());
+				}
+			} else {
+				response.setHttpCode(404);
+				response.setMessage("Bad update request, Permission ID is not available in DB");
+			}
+		} else {
 			response.setHttpCode(404);
-			response.setMessage(e.getMessage());
+			response.setMessage("Permission ID is a mandatory field.");
 		}
 		return response;
 	}

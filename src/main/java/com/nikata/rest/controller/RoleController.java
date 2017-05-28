@@ -67,12 +67,7 @@ public class RoleController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	public Response post(@RequestBody RoleDTO r, Response response) {
-		long id = 0;
 		try {
-			if (id == 0) {
-				id = r.getPermissions().get(0).getId() + 10000;
-			}
-			r.setId(id);
 			roleService.create(r, "add");
 			response.setPayload(r);
 			response.setHttpCode(200);
@@ -86,26 +81,36 @@ public class RoleController {
 
 	@RequestMapping(method = RequestMethod.PUT)
 	public Response put(@RequestBody RoleDTO role, Response response) {
-		try {
-			response.setPayload(roleService.create(role, "update"));
-			response.setHttpCode(200);
-			response.setMessage(Constants.SUCCESS);
-		} catch (Exception e) {
+		if (role.getId() > 0) {
+			try {
+				response.setPayload(roleService.create(role, "update"));
+				response.setHttpCode(200);
+				response.setMessage(Constants.SUCCESS);
+			} catch (Exception e) {
+				response.setHttpCode(404);
+				response.setMessage(e.getMessage());
+			}
+		} else {
 			response.setHttpCode(404);
-			response.setMessage(e.getMessage());
+			response.setMessage("Role ID is a mandatory field.");
 		}
 		return response;
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE)
 	public Response delete(@RequestBody RoleDTO role, Response response) {
-		try {
-			response.setPayload(roleService.create(role, "delete"));
-			response.setHttpCode(200);
-			response.setMessage(Constants.SUCCESS);
-		} catch (Exception e) {
+		if (role.getId() > 0) {
+			try {
+				response.setPayload(roleService.create(role, "delete"));
+				response.setHttpCode(200);
+				response.setMessage(Constants.SUCCESS);
+			} catch (Exception e) {
+				response.setHttpCode(404);
+				response.setMessage(e.getMessage());
+			}
+		} else {
 			response.setHttpCode(404);
-			response.setMessage(e.getMessage());
+			response.setMessage("Role ID is a mandatory field.");
 		}
 		return response;
 	}

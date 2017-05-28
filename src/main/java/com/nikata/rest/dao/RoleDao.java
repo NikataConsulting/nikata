@@ -68,7 +68,8 @@ public class RoleDao {
 					return ps;
 				}
 			}, keyHolder);
-
+			r.setId(keyHolder.getKey().longValue());
+			
 			if (keyHolder.getKey() != null && (null != r.getPermissions() && !r.getPermissions().isEmpty())) {
 				long role_id = keyHolder.getKey().longValue();
 				for (Permission p : r.getPermissions()) {

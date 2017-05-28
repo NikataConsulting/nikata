@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class MerchantUser {
 	private long id;
-	@Min(1)
+	
 	private long merchant_id;
 	@NotNull
 	@NotEmpty

@@ -66,9 +66,9 @@ public class NFCCache {
 	public void load() {
 		try {
 			loadUser();
-			
+
 			loadMerchant();
-			
+
 			loadBranch();
 
 			loadPermission();
@@ -114,6 +114,7 @@ public class NFCCache {
 	 * @date May 28, 2017 12:06:50 AM
 	 */
 	public synchronized void loadMerchant() {
+		merchantMap.clear();
 		List<Client> clients = merchantDao.readAll();
 		if (null != clients && !clients.isEmpty()) {
 			clients.forEach(client -> {

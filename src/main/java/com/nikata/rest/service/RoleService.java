@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.nikata.rest.cache.NFCCache;
 import com.nikata.rest.dao.RoleDao;
 import com.nikata.rest.dto.RoleDTO;
-import com.nikata.rest.exception.QueryException;
 import com.nikata.rest.model.Role;
 
 @Service
@@ -19,8 +18,17 @@ public class RoleService {
 
 	@Autowired
 	private NFCCache cache;
-
-	public long create(RoleDTO r, String action) throws QueryException, Exception {
+	
+	/**
+	 * 
+	 * @author Gaurav Oli
+	 * @date May 28, 2017 9:00:36 AM
+	 * @param r
+	 * @param action
+	 * @return
+	 * @throws Exception
+	 */
+	public long create(RoleDTO r, String action) throws Exception {
 		long result = 0;
 		if (action.equals("add")) {
 			roleDao.create(r);
@@ -38,7 +46,13 @@ public class RoleService {
 		}
 		return result;
 	}
-
+	
+	/**
+	 * 
+	 * @author Gaurav Oli
+	 * @date May 28, 2017 9:00:41 AM
+	 * @return
+	 */
 	public List<Role> getAllRole() {
 		return roleDao.readAll();
 	}
