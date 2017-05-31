@@ -11,7 +11,7 @@ public class Role {
 	private long id;
 	private String name;
 	private String description;
-	private long permission_id;
+	private Long permission_id;
 	private String permissionName;
 
 	public long getId() {
@@ -38,11 +38,11 @@ public class Role {
 		this.description = description;
 	}
 
-	public long getPermission_id() {
+	public Long getPermission_id() {
 		return permission_id;
 	}
 
-	public void setPermission_id(long permission_id) {
+	public void setPermission_id(Long permission_id) {
 		this.permission_id = permission_id;
 	}
 

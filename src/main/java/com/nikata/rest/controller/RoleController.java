@@ -37,20 +37,17 @@ public class RoleController {
 	private NFCCache cache;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Response get(Response response, ArrayList<RoleDTO> list, HashMap<String, String> map) {
+	public Response get(Response response, ArrayList<RoleDTO> list) {
 		try {
 			List<Role> roles = roleService.getAllRole();
 			if (null != roles && !roles.isEmpty()) {
 				for (Role role : roles) {
-					if (null == map.get(role.getName())) {
-						RoleDTO roleDTO = new RoleDTO();
-						roleDTO.setId(role.getId());
-						roleDTO.setName(role.getName());
-						roleDTO.setDescription(role.getDescription());
-						roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()));
-						list.add(roleDTO);
-						map.put(roleDTO.getName(), roleDTO.getName());
-					}
+					RoleDTO roleDTO = new RoleDTO();
+					roleDTO.setId(role.getId());
+					roleDTO.setName(role.getName());
+					roleDTO.setDescription(role.getDescription());
+					roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()));
+					list.add(roleDTO);
 				}
 			}
 			response.setPayload(list);
@@ -59,8 +56,6 @@ public class RoleController {
 		} catch (Exception e) {
 			response.setHttpCode(404);
 			response.setMessage(e.getMessage());
-		} finally {
-			map = null;
 		}
 		return response;
 	}
