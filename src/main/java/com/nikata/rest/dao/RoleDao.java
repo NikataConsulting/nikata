@@ -39,7 +39,7 @@ public class RoleDao {
 	 * @return
 	 */
 	public List<Role> readAll() {
-		return jdbcTemplate.query("SELECT r.id, r.name, r.description, rp.permission_id FROM role r INNER JOIN role_permission rp ON r.id=rp.role_id", new BeanPropertyRowMapper<Role>(Role.class));
+		return jdbcTemplate.query("SELECT r.id, r.name, r.description, rp.permission_id FROM role r LEFT OUTER JOIN role_permission rp ON r.id=rp.role_id", new BeanPropertyRowMapper<Role>(Role.class));
 	}
 
 	/**
