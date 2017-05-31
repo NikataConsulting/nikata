@@ -4,7 +4,6 @@
 package com.nikata.rest.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;

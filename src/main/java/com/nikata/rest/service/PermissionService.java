@@ -49,6 +49,7 @@ public class PermissionService {
 		} else {
 			throw new Exception("Wrong operation");
 		}
+		cache.loadRole();
 	}
 
 	public List<Permission> read() throws Exception {
