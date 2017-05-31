@@ -158,12 +158,14 @@ public class NFCCache {
 	 * @param r
 	 */
 	private void cacheRole(Role r) {
-		if (null != roleMap.get(r.getName())) {
+		if (null != roleMap.get(r.getName()) && null != r.getPermission_id()) {
 			roleMap.get(r.getName()).add(permissionMap.get(r.getPermission_id()));
 		} else {
 			List<Permission> permissions = new ArrayList<Permission>();
-			permissions.add(permissionMap.get(r.getPermission_id()));
-			roleMap.put(r.getName(), permissions);
+			if (null != r.getPermission_id()) {
+				permissions.add(permissionMap.get(r.getPermission_id()));
+				roleMap.put(r.getName(), permissions);
+			}
 		}
 	}
 

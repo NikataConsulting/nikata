@@ -45,7 +45,11 @@ public class RoleController {
 					roleDTO.setId(role.getId());
 					roleDTO.setName(role.getName());
 					roleDTO.setDescription(role.getDescription());
-					roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()));
+					if (null!=cache.getRoleMap().get(roleDTO.getName()) && !cache.getRoleMap().get(roleDTO.getName()).isEmpty()) {
+						roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()));
+					} else {
+						roleDTO.setPermissions(new ArrayList<>());
+					}
 					list.add(roleDTO);
 				}
 			}
