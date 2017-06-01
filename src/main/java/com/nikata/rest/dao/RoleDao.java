@@ -20,7 +20,6 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.mysql.jdbc.Statement;
 import com.nikata.rest.dto.RoleDTO;
-import com.nikata.rest.model.Permission;
 import com.nikata.rest.model.Role;
 
 @Repository
@@ -39,7 +38,7 @@ public class RoleDao {
 	 * @return
 	 */
 	public List<Role> readAll() {
-		return jdbcTemplate.query("SELECT r.id, r.name, r.description, rp.permission_id FROM role r LEFT OUTER JOIN role_permission rp ON r.id=rp.role_id", new BeanPropertyRowMapper<Role>(Role.class));
+		return jdbcTemplate.query("SELECT * FROM role", new BeanPropertyRowMapper<Role>(Role.class));
 	}
 
 	/**
@@ -51,8 +50,6 @@ public class RoleDao {
 	 * @throws Exception
 	 */
 	public void create(final RoleDTO r) throws Exception {
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			KeyHolder keyHolder = new GeneratedKeyHolder();
 			this.jdbcTemplate.update(new PreparedStatementCreator() {
@@ -69,17 +66,7 @@ public class RoleDao {
 				}
 			}, keyHolder);
 			r.setId(keyHolder.getKey().longValue());
-			
-			if (keyHolder.getKey() != null && (null != r.getPermissions() && !r.getPermissions().isEmpty())) {
-				long role_id = keyHolder.getKey().longValue();
-				for (Permission p : r.getPermissions()) {
-					this.jdbcTemplate.update("INSERT INTO role_permission(role_id, 	permission_id) VALUES(?,?)",
-							new Object[] { role_id, p.getId() });
-				}
-			}
-			transactionManager.commit(status);
 		} catch (Exception e) {
-			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -93,36 +80,23 @@ public class RoleDao {
 	 * @throws Exception
 	 */
 	public void update(RoleDTO r) throws Exception {
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
 			int row = this.jdbcTemplate.update(new PreparedStatementCreator() {
 				@Override
 				public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 					PreparedStatement ps = connection.prepareStatement(
-							"UPDATE role SET name = ?, description = ?, updated_on = CURRENT_TIMESTAMP");
+							"UPDATE role SET name = ?, description = ?, updated_on = CURRENT_TIMESTAMP WHERE id = ?");
 					ps.setString(1, r.getName());
 					ps.setString(2, r.getDescription());
+					ps.setLong(3, r.getId());
 					return ps;
 				}
 			});
 
-			if (row > 0) {
-				this.jdbcTemplate.update("DELETE FROM role_permission WHERE role_id = ?", new Object[] { r.getId() });
-				if (null != r.getPermissions() && !r.getPermissions().isEmpty()) {
-					for (Permission p : r.getPermissions()) {
-						this.jdbcTemplate.update("INSERT INTO role_permission(role_id, 	permission_id) VALUES(?,?)",
-								new Object[] { r.getId(), p.getId() });
-
-					}
-				}
-			} else {
-				transactionManager.rollback(status);
+			if (row < 1) {
 				throw new Exception("Unable to update role in role Table");
 			}
-			transactionManager.commit(status);
 		} catch (Exception e) {
-			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -138,14 +112,10 @@ public class RoleDao {
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
-			int row = this.jdbcTemplate.update("DELETE FROM role_permission WHERE role_id = ?",
-					new Object[] { r.getId() });
-			if (row > 0) {
-				row = this.jdbcTemplate.update("DELETE FROM role WHERE id = ?", new Object[] { r.getId() });
-			} else {
-				transactionManager.rollback(status);
-				throw new Exception("Unable to delete role from role_permission Table");
-			}
+			jdbcTemplate.update("DELETE FROM role_permission WHERE role_id = ?", new Object[] { r.getId() });
+
+			int row = this.jdbcTemplate.update("DELETE FROM role WHERE id = ?", new Object[] { r.getId() });
+
 			if (row < 1) {
 				transactionManager.rollback(status);
 				throw new Exception("Unable to delete role from role_permission Table");

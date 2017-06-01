@@ -32,7 +32,7 @@ public class RoleService {
 		long result = 0;
 		if (action.equals("add")) {
 			roleDao.create(r);
-			cache.cacheRole(r);
+			cache.loadRole();
 		} else if (action.equals("update")) {
 			roleDao.update(r);
 			cache.loadRole();

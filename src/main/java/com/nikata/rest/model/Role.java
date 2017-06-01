@@ -3,6 +3,8 @@
  */
 package com.nikata.rest.model;
 
+import java.sql.Date;
+
 /**
  * @author Gaurav Oli
  * @date Apr 8, 2017 9:21:06 PM
@@ -11,8 +13,8 @@ public class Role {
 	private long id;
 	private String name;
 	private String description;
-	private Long permission_id;
-	private String permissionName;
+	private Date created_on;
+	private Date updated_on;
 
 	public long getId() {
 		return id;
@@ -38,19 +40,19 @@ public class Role {
 		this.description = description;
 	}
 
-	public Long getPermission_id() {
-		return permission_id;
+	public Date getCreated_on() {
+		return created_on;
 	}
 
-	public void setPermission_id(Long permission_id) {
-		this.permission_id = permission_id;
+	public void setCreated_on(Date created_on) {
+		this.created_on = created_on;
 	}
 
-	public String getPermissionName() {
-		return permissionName;
+	public Date getUpdated_on() {
+		return updated_on;
 	}
 
-	public void setPermissionName(String permissionName) {
-		this.permissionName = permissionName;
+	public void setUpdated_on(Date updated_on) {
+		this.updated_on = updated_on;
 	}
 }

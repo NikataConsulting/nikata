@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 
@@ -17,6 +18,7 @@ import com.nikata.rest.constant.UserQuery;
 import com.nikata.rest.dao.MerchantDao;
 import com.nikata.rest.dao.PermissionDao;
 import com.nikata.rest.dao.RoleDao;
+import com.nikata.rest.dao.RolePermissionDao;
 import com.nikata.rest.dao.UserDao;
 import com.nikata.rest.dto.RoleDTO;
 import com.nikata.rest.model.Branches;
@@ -42,16 +44,19 @@ public class NFCCache {
 	private PermissionDao permissionDao;
 
 	@Autowired
+	private RolePermissionDao rolePermissionDao;
+	
+	@Autowired
 	private RoleDao roleDao;
 
 	@Autowired
 	private MerchantDao merchantDao;
 
-	private Map<Long, User> userMap = new HashMap<>();
-	private Map<String, String> paramMap = new HashMap<>();
-	private Map<Long, Permission> permissionMap = new HashMap<>();
-	private Map<String, List<Permission>> roleMap = new HashMap<>();
-	private Map<Long, String> merchantMap = new HashMap<>();
+	private Map<Long, User> userMap = new ConcurrentHashMap<>();
+	private Map<String, String> paramMap = new ConcurrentHashMap<>();
+	private Map<Long, Permission> permissionMap = new ConcurrentHashMap<>();
+	private Map<String, List<Permission>> roleMap = new ConcurrentHashMap<>();
+	private Map<Long, String> merchantMap = new ConcurrentHashMap<>();
 
 	/**
 	 * 
@@ -145,10 +150,11 @@ public class NFCCache {
 	public synchronized void loadRole() {
 		roleMap.clear();
 		List<Role> roleList = roleDao.readAll();
+		List<Map<String, Object>> rolePermission = rolePermissionDao.getRolePermission();
 		if (null != roleList && !roleList.isEmpty()) {
-			for (Role r : roleList) {
-				cacheRole(r);
-			}
+			roleList.forEach(r -> {
+				cacheRole(r, rolePermission);
+			});
 		}
 	}
 
@@ -157,15 +163,22 @@ public class NFCCache {
 	 * @date Apr 22, 2017 7:23:18 AM
 	 * @param r
 	 */
-	private void cacheRole(Role r) {
-		if (null != roleMap.get(r.getName()) && null != r.getPermission_id()) {
-			roleMap.get(r.getName()).add(permissionMap.get(r.getPermission_id()));
+	private void cacheRole(Role r, List<Map<String, Object>> list) {
+		if (null != roleMap.get(r.getName())) {
+			list.forEach(m -> {
+				if (String.valueOf(r.getId()).equals(String.valueOf(m.get("role_id")))) {
+					roleMap.get(r.getName())
+							.add(permissionMap.get(Long.parseLong(String.valueOf(m.get("permission_id")))));
+				}
+			});
 		} else {
 			List<Permission> permissions = new ArrayList<Permission>();
-			if (null != r.getPermission_id()) {
-				permissions.add(permissionMap.get(r.getPermission_id()));
-				roleMap.put(r.getName(), permissions);
-			}
+			list.forEach(m -> {
+				if (String.valueOf(r.getId()).equals(String.valueOf(m.get("role_id")))) {
+					permissions.add(permissionMap.get(Long.parseLong(String.valueOf(m.get("permission_id")))));
+					roleMap.put(r.getName(), permissions);
+				}
+			});
 		}
 	}
 
