@@ -114,7 +114,7 @@ public class UserController {
 		LOGGER.info("{POST} Request came to save or update user, user details are: " + user.toString());
 		try {
 			if (null != cache.getUserMap().get(user.getUser_id())) {
-				LOGGER.info("{POST} User found in cache, userid: "+user.getUser_id());
+				LOGGER.info("{POST} User found in cache, userid: " + user.getUser_id());
 				response.setHttpCode(Status.USER_ALREADY_REGISTERED.getStatus());
 				response.setMessage(Status.USER_ALREADY_REGISTERED.getMessage());
 
@@ -123,7 +123,7 @@ public class UserController {
 					userService.update(user);
 					cache.getUserMap().put(user.getUser_id(), user);
 				}
-				
+
 				response.setPayload(cache.getUserMap().get(user.getUser_id()));
 			} else {
 				LOGGER.info("{POST} Creating user object in database, user details are: " + user.toString());

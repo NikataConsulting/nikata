@@ -44,9 +44,10 @@ public class OtpService {
 	 * @date Mar 8, 2017 3:22:41 PM
 	 * @param user
 	 * @return
-	 * @throws MobileExistException 
+	 * @throws MobileExistException
 	 */
-	public int create(long user_id, String mobile) throws DataAccessException, RestClientException, MobileExistException {
+	public int create(long user_id, String mobile)
+			throws DataAccessException, RestClientException, MobileExistException {
 		int result = 0;
 		String response = null;
 		if (null == userDao.readByKey(OtpQuery.checkMobileExist(mobile))) {

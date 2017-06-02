@@ -11,6 +11,7 @@ import com.nikata.rest.model.History;
  */
 public class HistoryQuery {
 	public static String save(History h) {
-		return "INSERT INTO history(user_id, branch_id, post_id) VALUES("+h.getUser_id()+",'"+h.getBranch_id()+"','"+h.getPost_id()+"')";
+		return "INSERT INTO history(user_id, branch_id, post_id) VALUES(" + h.getUser_id() + ",'" + h.getBranch_id()
+				+ "','" + h.getPost_id() + "')";
 	}
 }

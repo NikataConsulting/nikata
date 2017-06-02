@@ -88,11 +88,12 @@ public class MerchantUserController {
 		System.out.println("Response: " + response.toString());
 		return response;
 	}
-	
+
 	@RequestMapping(value = "/role", method = RequestMethod.POST)
 	public Response role(@RequestBody MerchantUser user, Response response, HttpServletResponse httpResponse,
 			HttpServletRequest httpRequest) {
-		LOGGER.info("{POST} Request came to update/add/delete roles from merchant user, user details are: " + user.toString());
+		LOGGER.info("{POST} Request came to update/add/delete roles from merchant user, user details are: "
+				+ user.toString());
 		try {
 			dao.updateRole(user);
 			response.setHttpCode(200);

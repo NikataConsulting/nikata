@@ -83,21 +83,14 @@ public class RolePermissionController {
 		return response;
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE)
-	public Response delete(@RequestBody RoleDTO role, Response response) {
-		if (role.getId() > 0) {
-			try {
-				service.delete(role);
-				response.setHttpCode(200);
-				response.setMessage(Constants.SUCCESS);
-			} catch (Exception e) {
-				response.setHttpCode(404);
-				response.setMessage(e.getMessage());
-			}
-		} else {
-			response.setHttpCode(404);
-			response.setMessage("Role ID is a mandatory field.");
-		}
-		return response;
-	}
+	/*
+	 * @RequestMapping(method = RequestMethod.DELETE) public Response
+	 * delete(@RequestBody RoleDTO role, Response response) { if (role.getId() >
+	 * 0) { try { service.delete(role); response.setHttpCode(200);
+	 * response.setMessage(Constants.SUCCESS); } catch (Exception e) {
+	 * response.setHttpCode(404); response.setMessage(e.getMessage()); } } else
+	 * { response.setHttpCode(404);
+	 * response.setMessage("Role ID is a mandatory field."); } return response;
+	 * }
+	 */
 }

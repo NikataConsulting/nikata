@@ -20,14 +20,14 @@ public class UserService {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
 	 * @date Mar 8, 2017 3:23:13 PM
 	 * @param user
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public long create(User user) throws Exception {
 		return userDao.create(UserQuery.add(user));
@@ -39,7 +39,7 @@ public class UserService {
 	 * @date Mar 8, 2017 3:23:17 PM
 	 * @param user
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public long update(User user) throws Exception {
 		return userDao.create(UserQuery.update(user));

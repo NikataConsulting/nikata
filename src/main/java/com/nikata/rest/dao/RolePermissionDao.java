@@ -47,12 +47,17 @@ public class RolePermissionDao {
 	 * @throws Exception
 	 */
 	public void create(final RoleDTO r) throws Exception {
+		TransactionDefinition def = new DefaultTransactionDefinition();
+		TransactionStatus status = transactionManager.getTransaction(def);
 		try {
+			jdbcTemplate.update("DELETE FROM role_permission WHERE role_id = ?", new Object[] { r.getId() });
 			for (Permission p : r.getPermissions()) {
 				this.jdbcTemplate.update("INSERT INTO role_permission(role_id, 	permission_id) VALUES(?,?)",
 						new Object[] { r.getId(), p.getId() });
 			}
+			transactionManager.commit(status);
 		} catch (Exception e) {
+			transactionManager.rollback(status);
 			throw new Exception(e.getMessage());
 		}
 	}
@@ -64,18 +69,15 @@ public class RolePermissionDao {
 	 * @param r
 	 * @throws Exception
 	 */
-	public void delete(RoleDTO r) throws Exception {
-		TransactionDefinition def = new DefaultTransactionDefinition();
-		TransactionStatus status = transactionManager.getTransaction(def);
-		try {
-			for (Permission p : r.getPermissions()) {
-				jdbcTemplate.update("DELETE FROM role_permission WHERE role_id = ? AND permission_id = ?",
-						new Object[] { r.getId(), p.getId() });
-			}
-			transactionManager.commit(status);
-		} catch (Exception e) {
-			transactionManager.rollback(status);
-			throw new Exception(e.getMessage());
-		}
-	}
+	/*
+	 * public void delete(RoleDTO r) throws Exception { TransactionDefinition
+	 * def = new DefaultTransactionDefinition(); TransactionStatus status =
+	 * transactionManager.getTransaction(def); try { for (Permission p :
+	 * r.getPermissions()) { jdbcTemplate.
+	 * update("DELETE FROM role_permission WHERE role_id = ? AND permission_id = ?"
+	 * , new Object[] { r.getId(), p.getId() }); }
+	 * transactionManager.commit(status); } catch (Exception e) {
+	 * transactionManager.rollback(status); throw new Exception(e.getMessage());
+	 * } }
+	 */
 }

@@ -32,9 +32,9 @@ public class OtpDao {
 
 	@Autowired
 	private PlatformTransactionManager transactionManager;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(OtpDao.class);
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
@@ -60,7 +60,7 @@ public class OtpDao {
 		try {
 			otp = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<Otp>(Otp.class));
 		} catch (EmptyResultDataAccessException e) {
-			LOGGER.error("No data found, sql: "+sql, e);
+			LOGGER.error("No data found, sql: " + sql, e);
 		}
 		return otp;
 	}
@@ -76,7 +76,8 @@ public class OtpDao {
 	 * @throws OtpNotMatch
 	 * @throws DBException
 	 */
-	public int verify(String matchOtp, String updateOtp, int otp, long user_id) throws NoUserOtpFound, OtpNotMatch, DBException {
+	public int verify(String matchOtp, String updateOtp, int otp, long user_id)
+			throws NoUserOtpFound, OtpNotMatch, DBException {
 		int result = 0;
 		TransactionDefinition def = new DefaultTransactionDefinition();
 		TransactionStatus status = transactionManager.getTransaction(def);
@@ -85,7 +86,7 @@ public class OtpDao {
 			if (null != obj) {
 				if (obj.getOtp() == otp) {
 					result = jdbcTemplate.update(updateOtp);
-					result = jdbcTemplate.update("UPDATE users set isVerified = 'Y' where user_id = "+user_id);
+					result = jdbcTemplate.update("UPDATE users set isVerified = 'Y' where user_id = " + user_id);
 				} else {
 					LOGGER.info("OTP not match");
 					throw new OtpNotMatch();

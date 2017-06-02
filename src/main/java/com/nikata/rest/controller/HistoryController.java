@@ -35,10 +35,10 @@ import com.nikata.rest.service.HistoryService;
 public class HistoryController {
 	@Autowired
 	private HistoryService historyService;
-	
+
 	@Autowired
 	private NFCCache cache;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(HistoryController.class);
 
 	@RequestMapping(value = "/{history_id}", method = RequestMethod.GET)

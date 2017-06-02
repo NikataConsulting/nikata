@@ -31,7 +31,7 @@ import com.nikata.rest.service.OtpService;
  */
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(value="/app/otp")
+@RequestMapping(value = "/app/otp")
 public class OtpController {
 
 	@Autowired
@@ -49,8 +49,8 @@ public class OtpController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET)
-	public Response get(@RequestParam(required=true) long user_id,
-						@RequestParam(required=true) String mobile, Response response, HttpServletResponse httpResponse) {
+	public Response get(@RequestParam(required = true) long user_id, @RequestParam(required = true) String mobile,
+			Response response, HttpServletResponse httpResponse) {
 		try {
 			if (null == cache.getUserMap().get(user_id)) {
 				httpResponse.setStatus(HttpStatus.NOT_FOUND.value());
@@ -65,7 +65,7 @@ public class OtpController {
 					otpService.updateUserMobile(user_id, mobile);
 					cache.getUserMap().get(user_id).setMobile(mobile);
 				}
-				
+
 				if (otpService.create(user_id, mobile) == 1) {
 					response.setHttpCode(HttpStatus.OK.value());
 					response.setMessage(Constants.SUCCESS);

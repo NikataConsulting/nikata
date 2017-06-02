@@ -32,20 +32,17 @@ public class RoleController {
 	@RequestMapping(method = RequestMethod.GET)
 	public Response get(Response response, ArrayList<RoleDTO> list) {
 		try {
-			/*if (null != roles && !roles.isEmpty()) {
-				for (Role role : roles) {
-					RoleDTO roleDTO = new RoleDTO();
-					roleDTO.setId(role.getId());
-					roleDTO.setName(role.getName());
-					roleDTO.setDescription(role.getDescription());
-					if (null!=cache.getRoleMap().get(roleDTO.getName()) && !cache.getRoleMap().get(roleDTO.getName()).isEmpty()) {
-						roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()));
-					} else {
-						roleDTO.setPermissions(new ArrayList<>());
-					}
-					list.add(roleDTO);
-				}
-			}*/
+			/*
+			 * if (null != roles && !roles.isEmpty()) { for (Role role : roles)
+			 * { RoleDTO roleDTO = new RoleDTO(); roleDTO.setId(role.getId());
+			 * roleDTO.setName(role.getName());
+			 * roleDTO.setDescription(role.getDescription()); if
+			 * (null!=cache.getRoleMap().get(roleDTO.getName()) &&
+			 * !cache.getRoleMap().get(roleDTO.getName()).isEmpty()) {
+			 * roleDTO.setPermissions(cache.getRoleMap().get(roleDTO.getName()))
+			 * ; } else { roleDTO.setPermissions(new ArrayList<>()); }
+			 * list.add(roleDTO); } }
+			 */
 			response.setPayload(roleService.getAllRole());
 			response.setHttpCode(200);
 			response.setMessage(Constants.SUCCESS);

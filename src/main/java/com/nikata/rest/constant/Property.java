@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class Property {
 	@Value("${jdbc.driver}")
 	private String driver;
-	
+
 	@Value("${jdbc.url}")
 	private String url;
-	
+
 	@Value("${jdbc.username}")
 	private String username;
-	
+
 	@Value("${jdbc.password}")
 	private String password;
 

@@ -18,11 +18,11 @@ import com.nikata.rest.model.User;
 @RestController
 @RequestMapping("/nfc/branch")
 public class BranchController {
-	@RequestMapping(value="/{branch_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{branch_id}", method = RequestMethod.GET)
 	public Response get(@PathVariable User user) {
 		return null;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public Response getAll(@PathVariable User user) {
 		return null;

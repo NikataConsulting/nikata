@@ -13,7 +13,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import com.nikata.rest.model.User;
 
@@ -25,9 +24,6 @@ import com.nikata.rest.model.User;
 public class UserDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-
-	@Autowired
-	private PlatformTransactionManager transactionManager;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 

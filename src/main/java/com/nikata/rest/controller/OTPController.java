@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class OTPController {
-	
-	@RequestMapping(value="/hello")
+
+	@RequestMapping(value = "/hello")
 	public String hello() {
 		return "Hello World";
 	}

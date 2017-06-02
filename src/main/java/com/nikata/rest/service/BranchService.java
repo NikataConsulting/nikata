@@ -20,7 +20,7 @@ import com.nikata.rest.model.Branches;
 public class BranchService {
 	@Autowired
 	private BranchDao branchDao;
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli

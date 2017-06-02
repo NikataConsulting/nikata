@@ -18,16 +18,16 @@ import com.nikata.rest.dto.Response;
  */
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value="/app/reload")
+@RequestMapping(value = "/app/reload")
 public class CacheController {
-	
+
 	@Autowired
 	private NFCCache nfcCache;
-	
-	@RequestMapping(method=RequestMethod.GET)
-	public Response reload(Response response){
+
+	@RequestMapping(method = RequestMethod.GET)
+	public Response reload(Response response) {
 		nfcCache.load();
 		return response;
 	}
-	
+
 }

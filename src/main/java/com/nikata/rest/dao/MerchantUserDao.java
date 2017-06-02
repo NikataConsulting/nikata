@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -35,7 +33,7 @@ public class MerchantUserDao {
 	@Autowired
 	private PlatformTransactionManager transactionManager;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
+	//private static final Logger LOGGER = LoggerFactory.getLogger(UserDao.class);
 
 	public long createMerchantUser(MerchantUser user) throws Exception {
 		TransactionDefinition def = new DefaultTransactionDefinition();
@@ -68,7 +66,8 @@ public class MerchantUserDao {
 								"INSERT INTO login(id, username, password, updated_on) VALUES(?,?,?,CURRENT_TIMESTAMP)",
 								Statement.RETURN_GENERATED_KEYS);
 						ps.setLong(1, user.getId());
-						ps.setString(2, user.getFirstname() + String.valueOf(Math.random()).split("\\.")[1].substring(0, 4));
+						ps.setString(2,
+								user.getFirstname() + String.valueOf(Math.random()).split("\\.")[1].substring(0, 4));
 						ps.setString(3, "nikata@123");
 						return ps;
 					}
@@ -137,7 +136,7 @@ public class MerchantUserDao {
 			throw new Exception(e);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli

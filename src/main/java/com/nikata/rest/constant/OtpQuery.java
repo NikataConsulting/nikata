@@ -79,7 +79,7 @@ public final class OtpQuery {
 	public static String updateUserMobile(long user_id, String mobile) {
 		return "UPDATE users SET mobile = " + mobile + " WHERE user_id = " + user_id;
 	}
-	
+
 	public static String checkMobileExist(String mobile) {
 		return "SELECT * FROM users WHERE mobile = " + mobile;
 	}

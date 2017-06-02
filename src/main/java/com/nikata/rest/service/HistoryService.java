@@ -18,7 +18,7 @@ import com.nikata.rest.model.History;
 public class HistoryService {
 	@Autowired
 	private HistoryDao historyDao;
-	
+
 	public int save(History history) {
 		return historyDao.save(HistoryQuery.save(history));
 	}

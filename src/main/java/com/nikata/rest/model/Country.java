@@ -1,8 +1,7 @@
 /**
  * 
  */
-package com.nikata.rest
-.model;
+package com.nikata.rest.model;
 
 /**
  * @author Gaurav Oli

@@ -26,9 +26,8 @@ public class ErrorHandleController {
 		return response;
 	}
 
-	/*@Override
-	public String getErrorPath() {
-		return "/error";
-	}*/
+	/*
+	 * @Override public String getErrorPath() { return "/error"; }
+	 */
 
 }

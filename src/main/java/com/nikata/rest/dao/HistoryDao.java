@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class HistoryDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
@@ -26,6 +26,5 @@ public class HistoryDao {
 	public int save(String sql) {
 		return jdbcTemplate.update(sql);
 	}
-	
-	
+
 }

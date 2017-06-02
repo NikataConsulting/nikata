@@ -60,8 +60,8 @@ public class RolePermissionService {
 	 * @param r
 	 * @throws Exception
 	 */
-	public void delete(RoleDTO r) throws Exception {
-		rolePermissionDao.delete(r);
-		cache.loadRole();
-	}
+	/*
+	 * public void delete(RoleDTO r) throws Exception {
+	 * rolePermissionDao.delete(r); cache.loadRole(); }
+	 */
 }

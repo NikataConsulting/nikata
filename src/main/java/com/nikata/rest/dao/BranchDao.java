@@ -23,15 +23,15 @@ import com.nikata.rest.model.Branches;
 public class BranchDao {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(BranchDao.class);
-	
+
 	public List<Branches> getAllBranches(String sql) {
 		List<Branches> branchList = null;
 		try {
 			branchList = jdbcTemplate.query(sql, new BeanPropertyRowMapper<Branches>(Branches.class));
 		} catch (EmptyResultDataAccessException e) {
-			LOGGER.error("No data found, sql: "+sql, e);
+			LOGGER.error("No data found, sql: " + sql, e);
 		}
 		return branchList;
 	}

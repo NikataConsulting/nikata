@@ -13,7 +13,7 @@ public class NoUserOtpFound extends Exception {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
@@ -23,5 +23,5 @@ public class NoUserOtpFound extends Exception {
 	public NoUserOtpFound() {
 		super();
 	}
-	
+
 }

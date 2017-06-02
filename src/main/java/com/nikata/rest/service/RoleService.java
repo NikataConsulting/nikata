@@ -18,7 +18,7 @@ public class RoleService {
 
 	@Autowired
 	private NFCCache cache;
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli
@@ -46,7 +46,7 @@ public class RoleService {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @author Gaurav Oli

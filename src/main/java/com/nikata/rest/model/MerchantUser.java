@@ -3,7 +3,6 @@
  */
 package com.nikata.rest.model;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -14,7 +13,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 public class MerchantUser {
 	private long id;
-	
+
 	private long merchant_id;
 	@NotNull
 	@NotEmpty

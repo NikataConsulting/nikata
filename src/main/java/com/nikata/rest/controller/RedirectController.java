@@ -1,4 +1,5 @@
 package com.nikata.rest.controller;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,15 +21,15 @@ import com.nikata.rest.cache.NFCCache;
 public class RedirectController {
 	@Autowired
 	private NFCCache nfcCache;
-	
+
 	private RedirectView redirectView = new RedirectView();
-	
+
 	@Value("${redirect.base.url}")
 	private String baseUrl;
-	
+
 	@RequestMapping("/{name}")
 	public RedirectView localRedirect(@PathVariable String name) {
-	    redirectView.setUrl(baseUrl+nfcCache.getParamMap().get(name));
-	    return redirectView;
+		redirectView.setUrl(baseUrl + nfcCache.getParamMap().get(name));
+		return redirectView;
 	}
 }

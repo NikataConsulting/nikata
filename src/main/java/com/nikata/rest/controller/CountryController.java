@@ -18,11 +18,11 @@ import com.nikata.rest.model.User;
 @RestController
 @RequestMapping("/nfc/country")
 public class CountryController {
-	@RequestMapping(value="/{country_id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{country_id}", method = RequestMethod.GET)
 	public Response get(@PathVariable User user) {
 		return null;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	public Response getAll(@PathVariable User user) {
 		return null;
